@@ -1,0 +1,1 @@
+Basic plugin to show text in a new tab.
