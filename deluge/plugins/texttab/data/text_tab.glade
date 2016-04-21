@@ -15,9 +15,12 @@
             <property name="hscrollbar_policy">automatic</property>
             <property name="vscrollbar_policy">automatic</property>
             <child>
-              <widget class="GtkTreeView" id="text_listview">
+              <widget class="GtkTextView" id="text_tab_textview">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="left_margin">1</property>
+                <property name="right_margin">1</property>
+                <property name="accepts_tab">False</property>
               </widget>
             </child>
           </widget>

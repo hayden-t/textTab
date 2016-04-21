@@ -72,25 +72,8 @@ class TextTab(Tab):
         self._child_widget = glade_tab.get_widget("text_tab")
         self._tab_label = glade_tab.get_widget("text_tab_label")
 
-        self.listview = glade_tab.get_widget("text_listview")
-        
-        self.liststore = gtk.ListStore(str)
-        
-        self.rows = {}
+        self.textview = glade_tab.get_widget("text_tab_textview") 
 
-        # Progress column
-        column = gtk.TreeViewColumn(_("Column Name"))
-        render = gtk.CellRendererText()
-        column.pack_start(render)
-        column.add_attribute(render, "text", 0)
-        column.set_resizable(True)
-        column.set_expand(False)
-        column.set_min_width(100)
-        column.set_clickable(False)
-        self.listview.append_column(column)
-        
-        self.listview.set_model(self.liststore)
-        
         self.textTab_timer = LoopingCall(self.update_tab)
         self.textTab_timer.start(5)
 
@@ -100,11 +83,11 @@ class TextTab(Tab):
     def cb_get_text(self, text):        
         if text:
             log.info("textTab, file contents: \n%s" % text)
-            row = self.liststore.append(["hello"])
+            #row = self.liststore.append(["hello"])
             #self.peers[peer["ip"]] = row
         else:
             log.info("textTab, file not found or empty")
-            row = self.liststore.append(["file not found or empty"])
+            #row = self.liststore.append(["file not found or empty"])
 
     def __dest(self, widget, response):
         widget.destroy()
