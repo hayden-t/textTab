@@ -38,15 +38,19 @@ class GtkUI(GtkPluginBase):
         self._text_tab = TextTab()
         #self._text_tab2 = TextTab()
         component.get("TorrentDetails").add_tab(self._text_tab)
+        
+        component.get("TorrentDetails").regenerate_positions()
         #component.get("TorrentDetails").add_tab(self._text_tab2)
+
+        self.textTab_timer = LoopingCall(self._text_tab.update_tab)
+        self.textTab_timer.start(5)
 
     def disable(self):
         component.get("Preferences").remove_page("textTab")
         component.get("TorrentDetails").remove_tab("TextTab")
         component.get("PluginManager").deregister_hook("on_apply_prefs", self.on_apply_prefs)
         component.get("PluginManager").deregister_hook("on_show_prefs", self.on_show_prefs)
-        
-        #self.textTab_timer.stop()
+        self.textTab_timer.stop()
 
     def on_apply_prefs(self):
         log.debug("applying prefs for textTab")
@@ -73,9 +77,8 @@ class TextTab(Tab):
         self._tab_label = glade_tab.get_widget("text_tab_label")
 
         self.textview = glade_tab.get_widget("text_tab_textview") 
-
-        self.textTab_timer = LoopingCall(self.update_tab)
-        self.textTab_timer.start(5)
+        self.textview.set_editable(False)
+        self.textview.set_cursor_visible(False)
 
     def update_tab(self):
         client.texttab.get_text().addCallback(self.cb_get_text)
@@ -83,14 +86,15 @@ class TextTab(Tab):
     def cb_get_text(self, text):        
         if text:
             log.info("textTab, file contents: \n%s" % text)
-            #row = self.liststore.append(["hello"])
-            #self.peers[peer["ip"]] = row
+            self.textview.get_buffer().set_text(text) # would be better to only request and add new lines maybe rather than all
+
         else:
             log.info("textTab, file not found or empty")
-            #row = self.liststore.append(["file not found or empty"])
+            self.textview.get_buffer().set_text("file not found or empty")
 
-    def __dest(self, widget, response):
+    def __dest(self, widget, response):        
         widget.destroy()
+
 
     def update(self):
         pass
