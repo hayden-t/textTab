@@ -7,6 +7,7 @@ deluge/plugins/texttab/core.py
 deluge/plugins/texttab/gtkui.py
 deluge/plugins/texttab/webui.py
 deluge/plugins/texttab/data/config.glade
+deluge/plugins/texttab/data/text_tab.glade
 deluge/plugins/texttab/data/texttab.js
 textTab.egg-info/PKG-INFO
 textTab.egg-info/SOURCES.txt

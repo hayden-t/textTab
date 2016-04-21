@@ -97,7 +97,8 @@ class TextTab(Tab):
     def update_tab(self):
         client.texttab.get_text().addCallback(self.cb_get_text)
         
-    def cb_get_text(self, text):        
+    def cb_get_text(self, text):
+        self.liststore.clear()
         if text:
             log.info("textTab, file contents: \n%s" % text)
             row = self.liststore.append(["hello"])
