@@ -55,10 +55,13 @@ class Core(CorePluginBase):
     def get_text(self):
         self.path = self.config["path1"]
         
+        fname = os.path.basename(self.path)
+        fname = os.path.splitext(fname)[0]
+        
         if os.path.isfile(self.path):
             log.info("textTab, opening file: %s" % self.path)
             f = open(self.path, "r")     
-            fname = os.path.splitext(f.name)[0]
+            
             ftext = f.read()
             fhash = hashlib.md5(ftext).hexdigest()
             if self.hash1 == fhash:
@@ -72,7 +75,7 @@ class Core(CorePluginBase):
         else:
             log.info("textTab, file not found: %s" % self.path)
             self.hash1 = ""
-            return (0, "textTab", False)
+            return (0, fname, '(file not found)')
 
     @export
     def set_config(self, config):

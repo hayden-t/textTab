@@ -117,7 +117,7 @@ class TextTab(Tab):
     def cb_get_text(self, (result, filename, text)):
         if result == 0:
             log.info("textTab, file not found")
-            self.textview.get_buffer().set_text("file not found")
+            self.textview.get_buffer().set_text(text)
             self._tab_label_label.set_text(filename)
         elif result == 1:
             log.info("textTab, file contents: \n%s" % text)
