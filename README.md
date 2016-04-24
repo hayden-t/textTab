@@ -1,1 +1,2 @@
-Basic plugin to show text in a new tab.
+Basic plugin to show content of text file in a new tab.
+Plugin can be found in "dist" folder.

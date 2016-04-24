@@ -1,5 +1,5 @@
 #
-# setup.py
+# __init__.py
 #
 # Copyright (C) 2009 haydent <www.httech.com.au>
 #
@@ -37,37 +37,22 @@
 #    statement from all source files in the program, then also delete it here.
 #
 
-from setuptools import setup
+from deluge.plugins.init import PluginInitBase
 
-__plugin_name__ = "textTab"
-__author__ = "haydent"
-__author_email__ = "www.httech.com.au"
-__version__ = "0.1"
-__url__ = ""
-__license__ = "GPLv3"
-__description__ = ""
-__long_description__ = """"""
-__pkg_data__ = {__plugin_name__.lower(): ["template/*", "data/*"]}
+class CorePlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from core import Core as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(CorePlugin, self).__init__(plugin_name)
 
-setup(
-    name=__plugin_name__,
-    version=__version__,
-    description=__description__,
-    author=__author__,
-    author_email=__author_email__,
-    url=__url__,
-    license=__license__,
-    long_description=__long_description__ if __long_description__ else __description__,
+class GtkUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from gtkui import GtkUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(GtkUIPlugin, self).__init__(plugin_name)
 
-    packages=[__plugin_name__.lower()],
-    package_data = __pkg_data__,
-
-    entry_points="""
-    [deluge.plugin.core]
-    %s = %s:CorePlugin
-    [deluge.plugin.gtkui]
-    %s = %s:GtkUIPlugin
-    [deluge.plugin.web]
-    %s = %s:WebUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower())*3)
-)
+class WebUIPlugin(PluginInitBase):
+    def __init__(self, plugin_name):
+        from webui import WebUI as _plugin_cls
+        self._plugin_cls = _plugin_cls
+        super(WebUIPlugin, self).__init__(plugin_name)
