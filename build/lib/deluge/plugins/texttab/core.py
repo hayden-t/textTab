@@ -20,7 +20,6 @@ from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
-#from twisted.internet.task import LoopingCall
 
 DEFAULT_PREFS = {
     "path1":""
@@ -31,11 +30,8 @@ log = logging.getLogger(__name__)
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("texttab.conf", DEFAULT_PREFS)
-        #self.update_status_timer = LoopingCall(self.update_stats)
-        #self.update_status_timer.start(5)
 
     def disable(self):
-        #self.update_status_timer.stop()
         pass
 
     def update(self):
@@ -54,8 +50,6 @@ class Core(CorePluginBase):
             return str
         else:
             log.info("textTab, file not found: %s" % self.path)        
-        
-
 
     @export
     def set_config(self, config):

@@ -40,7 +40,7 @@
             <child>
               <widget class="GtkLabel" id="text_tab_label_label">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Text</property>
+                <property name="label" translatable="yes">textTab</property>
               </widget>
               <packing>
                 <property name="position">1</property>
