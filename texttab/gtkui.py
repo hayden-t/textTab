@@ -61,14 +61,15 @@ class GtkUI(GtkPluginBase):
         
         self.textTab_timer = LoopingCall(self._text_tab.update_tab)
         
-        client.texttab.get_config().addCallback(self.startTimer)
+        client.texttab.get_config().addCallback(self.setTimer)
         
-    def startTimer(self, config):
+    def setTimer(self, config):
         try:
             self.textTab_timer.stop()
         except:
             pass
         self.textTab_timer.start(config["poll"])
+
 
     def disable(self):
         component.get("Preferences").remove_page("textTab")
@@ -81,11 +82,12 @@ class GtkUI(GtkPluginBase):
         log.debug("applying prefs for textTab")
         config = {
             "path1":self.glade.get_widget("txt_path1").get_text(),
-            "poll":self.glade.get_widget("spin_poll").get_value()
+            "poll":self.glade.get_widget("spin_poll").get_value(),
+            "reverse":self.glade.get_widget("check_reverse").get_active()            
         }
         client.texttab.set_config(config)
-        self._text_tab.update_tab()
-        client.texttab.get_config().addCallback(self.startTimer)
+        self._text_tab.update_tab(True)
+        client.texttab.get_config().addCallback(self.setTimer)
 
     def on_show_prefs(self):
         client.texttab.get_config().addCallback(self.cb_get_config)
@@ -93,8 +95,8 @@ class GtkUI(GtkPluginBase):
     def cb_get_config(self, config):
         "callback for on show_prefs"
         self.glade.get_widget("txt_path1").set_text(config["path1"])
-        self.glade.get_widget("spin_poll").set_value(config["poll"])        
-
+        self.glade.get_widget("spin_poll").set_value(config["poll"])
+        self.glade.get_widget("check_reverse").set_active(config["reverse"])
 
 
 class TextTab(Tab):
@@ -111,8 +113,8 @@ class TextTab(Tab):
         self.textview.set_editable(False)
         self.textview.set_cursor_visible(False)
 
-    def update_tab(self):
-        client.texttab.get_text().addCallback(self.cb_get_text)
+    def update_tab(self, force = False):
+        client.texttab.get_text(force).addCallback(self.cb_get_text)
         
     def cb_get_text(self, (result, filename, text)):
         if result == 0:

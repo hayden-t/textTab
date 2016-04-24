@@ -37,7 +37,8 @@ import hashlib
 
 DEFAULT_PREFS = {
     "path1":"",
-    "poll": 5
+    "poll": 5,
+    "reverse":False
 }
 
 class Core(CorePluginBase):
@@ -52,8 +53,9 @@ class Core(CorePluginBase):
         pass
         
     @export
-    def get_text(self):
+    def get_text(self, force):
         self.path = self.config["path1"]
+        self.reverse = self.config["reverse"]
         
         fname = os.path.basename(self.path)
         fname = os.path.splitext(fname)[0]
@@ -64,13 +66,18 @@ class Core(CorePluginBase):
             
             ftext = f.read()
             fhash = hashlib.md5(ftext).hexdigest()
-            if self.hash1 == fhash:
+            if self.hash1 == fhash and force == False:
                 return (2, False, False)
             self.hash1 = fhash
             if not ftext:
                 ftext = '(empty)'
             #log.info("textTab, file contents: \n%s" % str)
             f.close()
+            if self.reverse:
+                list = ftext.splitlines(True)
+                list.reverse()
+                log.info(list)
+                ftext = ''.join(list)
             return (1, fname, ftext)
         else:
             log.info("textTab, file not found: %s" % self.path)
