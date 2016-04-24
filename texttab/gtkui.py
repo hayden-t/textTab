@@ -58,9 +58,17 @@ class GtkUI(GtkPluginBase):
         
         self._text_tab = TextTab()
         component.get("TorrentDetails").add_tab(self._text_tab)
-
+        
         self.textTab_timer = LoopingCall(self._text_tab.update_tab)
-        self.textTab_timer.start(10)
+        
+        client.texttab.get_config().addCallback(self.startTimer)
+        
+    def startTimer(self, config):
+        try:
+            self.textTab_timer.stop()
+        except:
+            pass
+        self.textTab_timer.start(config["poll"])
 
     def disable(self):
         component.get("Preferences").remove_page("textTab")
@@ -72,10 +80,12 @@ class GtkUI(GtkPluginBase):
     def on_apply_prefs(self):
         log.debug("applying prefs for textTab")
         config = {
-            "path1":self.glade.get_widget("txt_path1").get_text()
+            "path1":self.glade.get_widget("txt_path1").get_text(),
+            "poll":self.glade.get_widget("spin_poll").get_value()
         }
         client.texttab.set_config(config)
         self._text_tab.update_tab()
+        client.texttab.get_config().addCallback(self.startTimer)
 
     def on_show_prefs(self):
         client.texttab.get_config().addCallback(self.cb_get_config)
@@ -83,6 +93,8 @@ class GtkUI(GtkPluginBase):
     def cb_get_config(self, config):
         "callback for on show_prefs"
         self.glade.get_widget("txt_path1").set_text(config["path1"])
+        self.glade.get_widget("spin_poll").set_value(config["poll"])        
+
 
 
 class TextTab(Tab):

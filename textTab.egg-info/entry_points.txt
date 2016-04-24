@@ -1,8 +1,0 @@
-
-    [deluge.plugin.core]
-    textTab = texttab:CorePlugin
-    [deluge.plugin.gtkui]
-    textTab = texttab:GtkUIPlugin
-    [deluge.plugin.web]
-    textTab = texttab:WebUIPlugin
-    
