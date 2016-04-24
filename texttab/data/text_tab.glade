@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
   <!-- interface-requires gtk+ 2.6 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="window1">
+    <property name="can_focus">False</property>
     <child>
       <widget class="GtkNotebook" id="notebook1">
         <property name="visible">True</property>
@@ -18,9 +19,14 @@
               <widget class="GtkTextView" id="text_tab_textview">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="pixels_above_lines">2</property>
+                <property name="pixels_below_lines">2</property>
                 <property name="left_margin">1</property>
                 <property name="right_margin">1</property>
                 <property name="accepts_tab">False</property>
+                <property name="text" translatable="yes">oeuu
+o
+</property>
               </widget>
             </child>
           </widget>
@@ -28,21 +34,28 @@
         <child>
           <widget class="GtkHBox" id="text_tab_label">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
               <widget class="GtkImage" id="image1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="stock">gtk-info</property>
               </widget>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <widget class="GtkLabel" id="text_tab_label_label">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">textTab</property>
               </widget>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
