@@ -82,6 +82,8 @@ class Core(CorePluginBase):
         else:
             log.info("textTab, file not found: %s" % self.path)
             self.hash1 = ""
+            if not fname:
+                fname = "textTab"
             return (0, fname, '(file not found)')
 
     @export

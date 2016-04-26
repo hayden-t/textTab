@@ -59,7 +59,8 @@ class GtkUI(GtkPluginBase):
         self._text_tab = TextTab()
         component.get("TorrentDetails").add_tab(self._text_tab)
         
-        self.textTab_timer = LoopingCall(self._text_tab.update_tab)
+        self._text_tab.update_tab(True)#one forced update first
+        self.textTab_timer = LoopingCall(self._text_tab.update_tab)#start timer
         
         client.texttab.get_config().addCallback(self.setTimer)
         
